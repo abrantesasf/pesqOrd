@@ -1,21 +1,30 @@
 package util;
 
+// Imports
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-
 import classes.ContaBancaria;
 import classes.VetorDeContasBancarias;
 
-import java.io.BufferedReader;
 
+/**
+ * <p>A classe <code><b>CSV</b></code> implementa os métodos para a leitura
+ * dos arquivos de dados a serem utilizados no trabalho final da disciplina
+ * de Pesquisa e Ordenação, do curso de Ciência da Computação, da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho
+ */
 public class CSV {
 	
     ///////////////////////////////////////////////////
     // Atributos
     ///////////////////////////////////////////////////	
+	
+	/** <p>String para diversas mensagens a serem retornadas pelos métodos</p> */
 	private String mensagem = "";
 	
 	
@@ -23,17 +32,50 @@ public class CSV {
     ///////////////////////////////////////////////////
     // Construtor(es)
     ///////////////////////////////////////////////////
-	public CSV() {
-		// Só o construtor padrão aqui
-	}
+	
+	/** <p>Construtor padrão.</p> */
+	public CSV() {}
 	
 	
 	
     ///////////////////////////////////////////////////
     // Lê arquivos de dados em formato CSV
     ///////////////////////////////////////////////////
-	public boolean lerCSVcontas(String arquivo,   VetorDeContasBancarias vContas, int numeroDeCampos,
-			                    String separador, Boolean header) throws IOException {
+	
+	/**
+	 * <p>Faz a leitura de um arquivo CSV com os dados das contas bancárias,
+	 * conforme o formato especificado na documentação técnica do trabalho
+	 * de pesquisa e ordenação.</p>
+	 * 
+	 * @param arquivo
+	 *        (String) com o path COMPLETO do arquivo a ser lido
+	 *        
+	 * @param vContas
+	 *        (VetorDeContasBancarias) é o vetor de contas bancárias que será
+	 *        preenchido com os dados das contas lidas a partir do arquivo
+	 *        
+	 * @param numeroDeCampos
+	 *        (int) inteiro que representa quantos campos (variáveis) há
+	 *        em cada linha do arquivo de dados
+	 *        
+	 * @param separador
+	 *        (String) com o separador utilizado entre em campos no arquivo
+	 *        
+	 * @param header
+	 *        (boolean) indica se o arquivo contém (TRUE) ou não (FALSE) uma
+	 *        linha de cabeçalho
+	 *        
+	 * @return <code>TRUE</code> se todas as contas bancárias foram lidas e inseridas no vetor<br />
+	 *         <code>FALSE</code> se as contas bancárias não puderam ser lidas e inseridas no vetor
+	 *         
+	 * @throws IOException
+	 */
+	public boolean lerArquivoDeContas(String arquivo,
+			                          VetorDeContasBancarias vContas,
+			                          int numeroDeCampos,
+			                          String separador,
+			                          Boolean header
+			                         ) throws IOException {
 		String  linha = "";
 		boolean ok    = true;
 		
@@ -44,7 +86,7 @@ public class CSV {
 			BufferedReader lerArq = new BufferedReader(arq);
 			
 			try {
-				// Se tem header pula a linha de cabeçalho
+				// Se tem header, pula a linha de cabeçalho
 				if (header) {
 					lerArq.readLine();
 				}

@@ -1,5 +1,6 @@
 package util;
 
+// Imports
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.BufferedInputStream;
@@ -9,32 +10,58 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+/**
+ * <p>A classe <code><b>Arquivos</b></code> é uma classe com métodos
+ * auxiliares para as atividades de IO do trabalho final da disciplina
+ * de Pesquisa e Ordenação, do curso de Ciência da Computação, da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho
+ */
 public class Arquivos {
 
 	///////////////////////////////////////////////////
 	// Atributos
 	///////////////////////////////////////////////////
-	private Path   path;
-	private String separadorDeArquivosString   = File.separator;
-	private char   separadorDeArquivosChar     = File.separatorChar;
+	
+	/** <p>Objeto que representa um <code>path</code> para um diretório/arquivo.</p> */
+	private Path path;
+	
+	/** <p>Separador de arquivos padrão do sistema operacional, em formato String.</p> */
+	private String separadorDeArquivosString = File.separator;
+	
+	/** <p>Separador de arquivos padrão do sistema operacional, em formato char.</p> */
+	private char separadorDeArquivosChar = File.separatorChar;
+	
+	/** <p>Separador de diretórios padrão do sistema operacional, em formato String.</p> */
 	private String separadorDeDiretoriosString = File.pathSeparator;
-	private char   separadorDeDiretoriosChar   = File.separatorChar;
+	
+	/** <p>Separador de diretórios padrão do sistema operacional, em formato char.</p> */
+	private char separadorDeDiretoriosChar = File.separatorChar;
 	
 	
 
 	///////////////////////////////////////////////////
 	// Construtor(es)
 	///////////////////////////////////////////////////
-	public Arquivos() {
-		// Construtor padrão apenas
-	}
+	
+	/** <p>Construtor padrão.</p> */
+	public Arquivos() {	}
 	
 	
 	
 	///////////////////////////////////////////////////
 	// Arquivo existe?
 	///////////////////////////////////////////////////
+	
+	/**
+	 * <p>Checa se um arquivo existe.</p>
+	 * 
+	 * @param path
+	 *        (String) que representa um caminho até um arquivo no sistema operacional
+	 *        
+	 * @return <code>TRUE</code> se o arquivo existe<br />
+	 *         <code>FALSE</code> se o arquivo não existe
+	 */
 	public boolean arquivoExiste(String path) {
 		boolean retorno = false;
 
@@ -52,6 +79,16 @@ public class Arquivos {
 	///////////////////////////////////////////////////
 	// Diretório existe?
 	///////////////////////////////////////////////////	
+	
+	/**
+	 * <p>Checa se um diretório existe.</p>
+	 * 
+	 * @param path
+	 *        (String) que representa um caminho até um diretório no sistema operacional
+	 *        
+	 * @return <code>TRUE</code> se o diretório existe<br />
+	 *         <code>FALSE</code> se o diretório não existe
+	 */
 	public boolean diretorioExiste(String path) {
 		boolean retorno = false;
 
@@ -115,13 +152,15 @@ public class Arquivos {
 	
 	
 	///////////////////////////////////////////////////
-	// Separador de arquivos conforme SO,
-	// em formato Strint (S) ou Char (C)
-	///////////////////////////////////////////////////	
+	// Retorna o separador de arquivos padrão
+	///////////////////////////////////////////////////
+	
+	/** <p>Retorna o separador de arquivos padrão no formato String.</p> */
 	public String separadorDeArquivosS() {
 		return this.separadorDeArquivosString;
 	}
 	
+	/** <p>Retorna o separador de arquivos padrão no formato char.</p> */
 	public char separadorDeArquivosC() {
 		return this.separadorDeArquivosChar;
 	}
@@ -129,13 +168,15 @@ public class Arquivos {
 	
 	
 	///////////////////////////////////////////////////
-	// Separador de diretório conforme SO,
-	// em formato Strint (S) ou Char (C)
-	///////////////////////////////////////////////////	
+	// Retorna o separador de diretórios padrão
+	///////////////////////////////////////////////////
+	
+	/** <p>Retorna o separador de diretórios padrão no formato String.</p> */
 	public String separadorDeDiretoriosS() {
 		return this.separadorDeDiretoriosString;
 	}
 
+	/** <p>Retorna o separador de diretórios padrão no formato char.</p> */
 	public char separadorDeDiretoriosC() {
 		return this.separadorDeDiretoriosChar;
 	}	
