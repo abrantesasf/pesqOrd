@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import classes.ContaBancaria;
-import classes.VetorDeContasBancarias;
 
 
 /**
@@ -18,7 +17,7 @@ import classes.VetorDeContasBancarias;
  * 
  * @author Abrantes Araújo Silva Filho ({@link<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>})
  */
-public class CSV {
+public class CSV2 {
 	
     ///////////////////////////////////////////////////
     // Atributos
@@ -34,7 +33,7 @@ public class CSV {
     ///////////////////////////////////////////////////
 	
 	/** <p>Construtor padrão.</p> */
-	public CSV() {}
+	public CSV2() {}
 	
 	
 	
@@ -51,7 +50,7 @@ public class CSV {
 	 *        (String) com o path COMPLETO do arquivo a ser lido
 	 *        
 	 * @param vContas
-	 *        (VetorDeContasBancarias) é o vetor de contas bancárias que será
+	 *        (ContaBancaria[]) é o vetor de contas bancárias que será
 	 *        preenchido com os dados das contas lidas a partir do arquivo
 	 *        
 	 * @param numeroDeCampos
@@ -71,13 +70,14 @@ public class CSV {
 	 * @throws IOException
 	 */
 	public boolean lerArquivoDeContas(String arquivo,
-			                          VetorDeContasBancarias vContas,
+			                          ContaBancaria[] vContas,
 			                          int numeroDeCampos,
 			                          String separador,
 			                          Boolean header
 			                         ) throws IOException {
 		String  linha = "";
 		boolean ok    = true;
+		int qtdIn = 0;
 		
 		try {
 			// Cria objeto FileReader para "apontar" para o arquivo passado como argumento; e
@@ -108,12 +108,14 @@ public class CSV {
 						ContaBancaria novaContaBancaria = new ContaBancaria(vetor[0], vetor[1], Double.parseDouble(vetor[2]), vetor[3]);
 						
 						// Insere a nova conta bancária no vetor de contas bancárias
-						if (!vContas.inserirContaBancaria(novaContaBancaria)) {
-							ok = false;
-							this.mensagem = "Erro durante a inserção da conta no vetor temporário.";
-							System.out.println(this.mensagem);
-							break;
-						}
+//						if (!vContas.inserirContaBancaria(novaContaBancaria)) {
+//							ok = false;
+//							this.mensagem = "Erro durante a inserção da conta no vetor temporário.";
+//							System.out.println(this.mensagem);
+//							break;
+//						}
+						vContas[qtdIn] = novaContaBancaria;
+						qtdIn++;
 					}
 				}
 			} catch (Exception e) {
@@ -130,5 +132,39 @@ public class CSV {
 		}
 		return ok;
 	}
+	
+	public boolean gravarArquivoDeContas(String arquivo, ContaBancaria[] contas, boolean header) {
+		boolean ok = false;
+		try {
+			// Instancia objeto do tipo PrintWriter, usanto UTF-8 por padrão
+			PrintWriter saida = new PrintWriter(arquivo, "UTF-8");
 
-} // fecha a classe CSV
+			// Se tem cabeçalho, grava:
+			if (header) {
+				saida.print("agencia;numero;saldo;cpf");
+				saida.print(System.getProperty("line.separator"));
+			}
+
+			// Percorre o vetor e salva os dados no arquivo, colocando o separador
+			// ";" entre os campos e, ao final, o caractere de final de linha adequado para o SO
+			for (int i = 0; i < contas.length; i++) {
+				saida.print(contas[i].getAgencia());
+				saida.print(";");
+				saida.print(contas[i].getConta());
+				saida.print(";");
+				saida.print(Double.toString(contas[i].getSaldo()));
+				saida.print(";");
+				saida.print(contas[i].getCPF());
+				saida.print(System.getProperty("line.separator"));
+			}
+			ok = true;
+			saida.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return ok;
+	}
+
+} // fecha a classe CSV2

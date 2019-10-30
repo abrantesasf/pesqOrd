@@ -6,9 +6,9 @@ package classes;
  * final da disciplina de Pesquisa e Ordenação, do curso de Ciência da
  * Computação, da FAESA.</p>
  * 
- * @author Abrantes Araújo Silva Filho
+ * @author Abrantes Araújo Silva Filho ({@link<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>})
  */
-public class ContaBancaria {
+public class ContaBancaria implements Comparable<ContaBancaria>{
 	
 	///////////////////////////////////////////////////
 	// Atributos
@@ -128,6 +128,39 @@ public class ContaBancaria {
 	 */
 	public void setCPF(String cpf) {
 		this.cpf = cpf;
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Ordena por CPF, agência e conta bancária
+	///////////////////////////////////////////////////
+	
+	/**
+	 * <p>Código de comparação entre contas bancárias, que implementa a seguinte
+	 * lógica de ordenação:</p>
+	 * 
+	 * <ol>
+	 * <li>Inicialmente o <b>CPF</b> é comparado;</li>
+	 * <li>Se o CPF for igual, o código da <b>agência</b> é comparado;</li>
+	 * <li>Se a agência também for igual, o códgido da <b>conta</b> é comparado.</li>
+	 * </ol>
+	 * 
+	 * @param that
+	 *        (ContaBancaria) a ser comparada com a conta atual
+	 * 
+	 * @return -1: se a ContaBancaria atual (this) é MENOR do que a de comparação (that)<br />
+	 *          0: se, após todas as comprações, as contas forem iguais<br />
+	 *         +1: se a ContaBancaria atual (this) é MAIOR do que a de comparação (that)
+	 */
+	public int compareTo(ContaBancaria that) {
+		if (Long.parseLong(this.cpf) > Long.parseLong(that.cpf)) return +1;
+		if (Long.parseLong(this.cpf) < Long.parseLong(that.cpf)) return -1;
+		if (Integer.parseInt(this.agencia) > Integer.parseInt(that.agencia)) return +1;
+		if (Integer.parseInt(this.agencia) < Integer.parseInt(that.agencia)) return -1;
+		if (Long.parseLong(this.conta) > Long.parseLong(that.conta)) return +1;
+		if (Long.parseLong(this.conta) < Long.parseLong(that.conta)) return -1;
+		return 0;
 	}
 	
 	
