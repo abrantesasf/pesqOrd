@@ -156,8 +156,9 @@ public class ContaBancaria implements Comparable<ContaBancaria>{
 	public int compareTo(ContaBancaria that) {
 		if (Long.parseLong(this.cpf) > Long.parseLong(that.cpf)) return +1;
 		if (Long.parseLong(this.cpf) < Long.parseLong(that.cpf)) return -1;
-		if (Integer.parseInt(this.agencia) > Integer.parseInt(that.agencia)) return +1;
-		if (Integer.parseInt(this.agencia) < Integer.parseInt(that.agencia)) return -1;
+		// Para ordenar também por agência, antes da conta bancária, descomentar:
+		//if (Integer.parseInt(this.agencia) > Integer.parseInt(that.agencia)) return +1;
+		//if (Integer.parseInt(this.agencia) < Integer.parseInt(that.agencia)) return -1;
 		if (Long.parseLong(this.conta) > Long.parseLong(that.conta)) return +1;
 		if (Long.parseLong(this.conta) < Long.parseLong(that.conta)) return -1;
 		return 0;
