@@ -3,9 +3,11 @@ package aplicacao;
 // Imports
 import java.util.Scanner;
 
+import classes.ABB;
 import classes.ContaBancaria;
 import classes.Heap;
 import classes.Quick;
+import classes.VetorDeContasBancarias;
 //import classes.Selection;
 //import classes.VetorDeContasBancarias;
 import util.Arquivos;
@@ -101,6 +103,11 @@ public class PesqOrd {
 	
 	/** <p>Cria instância da classe VetorDeContasBancarias para armazenar as contas lidas.</p> */
 	private static ContaBancaria[] contas;
+	
+	private static VetorDeContasBancarias vetContas;
+	
+	/** <p>Cria uma ABB vazia para o método ABB Balanceada.</p> */
+	private static ABB abb;
 	
 	/**
 	 * <p>Faz a leitura de um path para um arquivo de dados com as contas
@@ -204,11 +211,36 @@ public class PesqOrd {
 			case 200:
 				Quick.sort(contas);
 				break;
+			case 300:
+				vetContas = new VetorDeContasBancarias(contas.length);
+				abb = new ABB();
+				for (int j = 0; j < contas.length; j++) {
+					ContaBancaria ct = new ContaBancaria(contas[j].getAgencia(),
+							                             contas[j].getConta(),
+							                             contas[j].getSaldo(),
+							                             contas[j].getCPF());
+					abb.inserir(ct);
+				}
+				abb.percursoInOrdem(vetContas);
+				abb = new ABB();
+				abb.balancear(vetContas);
+				break;
 			default:
 				System.out.println("Método de ordenação especificado não existe.");
 				break;
 			}
-			csv2.gravarArquivoDeContas(output, contas, false);
+			switch (metodo) {
+			case 100:
+			case 200:
+				csv2.gravarArquivoDeContas(output, contas, false);
+				break;
+			case 300:
+				csv2.gravarArquivoDeContas(output, vetContas, false);
+				break;
+			default:
+				System.out.println("Não foi possível determinar o arquivo a ser gravado pelo CSV2.");
+				break;
+			}
 			tempoFinal = finalizaTimer();
 			duracoesRegistradas[i] = calculaDuracao(tempoInicial, tempoFinal);
 			System.out.println("Duração da execução nº " + (i+1) + ": " + duracoesRegistradas[i] + " milissegundos.");	
@@ -230,6 +262,7 @@ public class PesqOrd {
 			System.out.println("------------- MENU DE OPÇÕES -------------\n" +
                                "100) Heap Sort + Binary Search:\n" +
 			                   "200) Quicksort + Binary Search:\n" +
+                               "300) ABB Balanceada:\n" +
 			                   "999) Sai da aplicação\n" +
 			                   "------------------------------------------\n"
 	                          );
@@ -243,6 +276,9 @@ public class PesqOrd {
 				break;
 			case 200:
 				menuQuick();
+				break;
+			case 300:
+				menuABB();
 				break;
 			case 999:
 				System.out.println("Encerrando o programa.");
@@ -437,6 +473,80 @@ public class PesqOrd {
 	
 	
 	///////////////////////////////////////////////////
+	// Menu para a ABB Balanceada
+	// (NÃO ALTERE!)
+	///////////////////////////////////////////////////	
+	
+	/** <p>Exibe o menu para o Quickort</p> */	
+	private static void menuABB() {
+		submenuOption = 0;
+		do {
+			System.out.println("-------- ABB Balanceada -------");
+			opcoesSubMenu();
+			System.out.print("Sua opção é: ");
+			submenuOption = scan.nextInt();
+			scan.nextLine();
+			
+			switch (submenuOption) {
+			case 1:
+				fazTrabalho(alea500, 300, abbAlea500);
+				break;
+			case 2:
+				fazTrabalho(alea1000, 300, abbAlea1000);
+				break;
+			case 3:
+				fazTrabalho(alea5000, 300, abbAlea5000);
+				break;
+			case 4:
+				fazTrabalho(alea10000, 300, abbAlea10000);
+				break;
+			case 5:
+				fazTrabalho(alea50000, 300, abbAlea50000);
+				break;
+			case 6:
+				fazTrabalho(ord500, 300, abbOrd500);
+				break;
+			case 7:
+				fazTrabalho(ord1000, 300, abbOrd1000);
+				break;
+			case 8:
+				fazTrabalho(ord5000, 300, abbOrd5000);
+				break;
+			case 9:
+				fazTrabalho(ord10000, 300, abbOrd10000);
+				break;
+			case 10:
+				fazTrabalho(ord50000, 300, abbOrd50000);
+				break;
+			case 11:
+				fazTrabalho(inv500, 300, abbInv500);
+				break;
+			case 12:
+				fazTrabalho(inv1000, 300, abbInv1000);
+				break;
+			case 13:
+				fazTrabalho(inv5000, 300, abbInv5000);
+				break;
+			case 14:
+				fazTrabalho(inv10000, 300, abbInv10000);
+				break;
+			case 15:
+				fazTrabalho(inv50000, 300, abbInv50000);
+				break;
+			case 99:
+				System.out.println("Retornando ao menu principal");
+				break;
+			default:
+				System.out.println("Opção não reconhecida, informe novamente.");
+				break;
+			}
+			
+		} while (submenuOption != 99);
+	}	
+	
+	
+	
+	///////////////////////////////////////////////////
 	// Atributos estáticos para apontar para cada um
 	// dos arquivos de dados da Profa. Cinthia
 	// (NÃO ALTERE ESSES ATRIBUTOS!)
@@ -591,6 +701,59 @@ public class PesqOrd {
 	private static String quickInv10000 = dirDados + "quick_inv_10000.txt";
 	
 	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
-	private static String quickInv50000 = dirDados + "quick_inv_50000.txt";	
+	private static String quickInv50000 = dirDados + "quick_inv_50000.txt";
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Atributos estáticos para dizer onde os arquivos
+	// de saída da ABB BALANCEADA serão gravados
+	// (NÃO ALTERE ESSES ATRIBUTOS!)
+	///////////////////////////////////////////////////
+
+	/** <p>String com o path completo até o arquivo aleatório 500</p> **/
+	private static String abbAlea500 = dirDados + "abb_alea_500.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 1000</p> **/
+	private static String abbAlea1000 = dirDados + "abb_alea_1000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 5000</p> **/
+	private static String abbAlea5000 = dirDados + "abb_alea_5000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 10000</p> **/
+	private static String abbAlea10000 = dirDados + "abb_alea_10000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 50000</p> **/
+	private static String abbAlea50000 = dirDados + "abb_alea_50000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 500</p> **/
+	private static String abbOrd500 = dirDados + "abb_ord_500.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 1000</p> **/
+	private static String abbOrd1000 = dirDados + "abb_ord_1000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 5000</p> **/
+	private static String abbOrd5000 = dirDados + "abb_ord_5000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 10000</p> **/
+	private static String abbOrd10000 = dirDados + "abb_ord_10000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 50000</p> **/
+	private static String abbOrd50000 = dirDados + "abb_ord_50000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 500</p> **/
+	private static String abbInv500 = dirDados + "abb_inv_500.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 1000</p> **/
+	private static String abbInv1000 = dirDados + "abb_inv_1000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 5000</p> **/
+	private static String abbInv5000 = dirDados + "abb_inv_5000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 10000</p> **/
+	private static String abbInv10000 = dirDados + "abb_inv_10000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
+	private static String abbInv50000 = dirDados + "abb_inv_50000.txt";		
 
 } // fecha classe
