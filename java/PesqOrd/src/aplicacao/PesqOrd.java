@@ -4,12 +4,12 @@ package aplicacao;
 import java.util.Scanner;
 
 import classes.ABB;
+import classes.AVL;
 import classes.ContaBancaria;
 import classes.Heap;
 import classes.Quick;
 import classes.VetorDeContasBancarias;
 //import classes.Selection;
-//import classes.VetorDeContasBancarias;
 import util.Arquivos;
 //import util.CSV;
 import util.CSV2;
@@ -101,13 +101,17 @@ public class PesqOrd {
 	/** <p>Armazena a opção do submenu escolhida pelo usuário</p> **/
 	private static int submenuOption = 0;
 	
-	/** <p>Cria instância da classe VetorDeContasBancarias para armazenar as contas lidas.</p> */
+	/** <p>Cria vetor de ContaBancaria para armazenar as contas lidas.</p> */
 	private static ContaBancaria[] contas;
 	
+	/** <p>Cria instância da classe VetorDeContasBancarias para as operações com árvores.</p> */
 	private static VetorDeContasBancarias vetContas;
 	
-	/** <p>Cria uma ABB vazia para o método ABB Balanceada.</p> */
+	/** <p>Declara uma ABB vazia para o método ABB Balanceada.</p> */
 	private static ABB abb;
+	
+	/** <p>Declara uma AVL para o método da AVL.</p> */
+	private static AVL avl;
 	
 	/**
 	 * <p>Faz a leitura de um path para um arquivo de dados com as contas
@@ -225,6 +229,26 @@ public class PesqOrd {
 				abb = new ABB();
 				abb.balancear(vetContas);
 				break;
+			case 400:
+				vetContas = new VetorDeContasBancarias(contas.length);
+				avl = new AVL();
+				for (int j = 0; j < contas.length; j++) {
+					ContaBancaria ct = new ContaBancaria(contas[j].getAgencia(),
+							                             contas[j].getConta(),
+							                             contas[j].getSaldo(),
+							                             contas[j].getCPF());
+					avl.inserir(ct);
+				}
+				avl.percursoInOrdem(vetContas);
+				avl = new AVL();
+				for (int j = 0; j < vetContas.getQtdDeContasNoVetor(); j++) {
+					ContaBancaria ct = new ContaBancaria(vetContas.getConta(j).getAgencia(),
+							                             vetContas.getConta(j).getConta(),
+							                             vetContas.getConta(j).getSaldo(),
+							                             vetContas.getConta(j).getCPF());
+					avl.inserir(ct);
+				}
+				break;
 			default:
 				System.out.println("Método de ordenação especificado não existe.");
 				break;
@@ -263,6 +287,7 @@ public class PesqOrd {
                                "100) Heap Sort + Binary Search:\n" +
 			                   "200) Quicksort + Binary Search:\n" +
                                "300) ABB Balanceada:\n" +
+			                   "400) Árvore AVL:\n" +
 			                   "999) Sai da aplicação\n" +
 			                   "------------------------------------------\n"
 	                          );
@@ -279,6 +304,9 @@ public class PesqOrd {
 				break;
 			case 300:
 				menuABB();
+				break;
+			case 400:
+				menuAVL();
 				break;
 			case 999:
 				System.out.println("Encerrando o programa.");
@@ -542,7 +570,81 @@ public class PesqOrd {
 			}
 			
 		} while (submenuOption != 99);
-	}	
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Menu para a AVL
+	// (NÃO ALTERE!)
+	///////////////////////////////////////////////////	
+	
+	/** <p>Exibe o menu para o Quickort</p> */	
+	private static void menuAVL() {
+		submenuOption = 0;
+		do {
+			System.out.println("-------- Árvore AVL -------");
+			opcoesSubMenu();
+			System.out.print("Sua opção é: ");
+			submenuOption = scan.nextInt();
+			scan.nextLine();
+			
+			switch (submenuOption) {
+			case 1:
+				fazTrabalho(alea500, 300, avlAlea500);
+				break;
+			case 2:
+				fazTrabalho(alea1000, 300, avlAlea1000);
+				break;
+			case 3:
+				fazTrabalho(alea5000, 300, avlAlea5000);
+				break;
+			case 4:
+				fazTrabalho(alea10000, 300, avlAlea10000);
+				break;
+			case 5:
+				fazTrabalho(alea50000, 300, avlAlea50000);
+				break;
+			case 6:
+				fazTrabalho(ord500, 300, avlOrd500);
+				break;
+			case 7:
+				fazTrabalho(ord1000, 300, avlOrd1000);
+				break;
+			case 8:
+				fazTrabalho(ord5000, 300, avlOrd5000);
+				break;
+			case 9:
+				fazTrabalho(ord10000, 300, avlOrd10000);
+				break;
+			case 10:
+				fazTrabalho(ord50000, 300, avlOrd50000);
+				break;
+			case 11:
+				fazTrabalho(inv500, 300, avlInv500);
+				break;
+			case 12:
+				fazTrabalho(inv1000, 300, avlInv1000);
+				break;
+			case 13:
+				fazTrabalho(inv5000, 300, avlInv5000);
+				break;
+			case 14:
+				fazTrabalho(inv10000, 300, avlInv10000);
+				break;
+			case 15:
+				fazTrabalho(inv50000, 300, avlInv50000);
+				break;
+			case 99:
+				System.out.println("Retornando ao menu principal");
+				break;
+			default:
+				System.out.println("Opção não reconhecida, informe novamente.");
+				break;
+			}
+			
+		} while (submenuOption != 99);
+	}		
 	
 	
 	
@@ -754,6 +856,59 @@ public class PesqOrd {
 	private static String abbInv10000 = dirDados + "abb_inv_10000.txt";
 
 	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
-	private static String abbInv50000 = dirDados + "abb_inv_50000.txt";		
+	private static String abbInv50000 = dirDados + "abb_inv_50000.txt";
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Atributos estáticos para dizer onde os arquivos
+	// de saída da ÁRVORE AVL serão gravados
+	// (NÃO ALTERE ESSES ATRIBUTOS!)
+	///////////////////////////////////////////////////
+
+	/** <p>String com o path completo até o arquivo aleatório 500</p> **/
+	private static String avlAlea500 = dirDados + "avl_alea_500.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 1000</p> **/
+	private static String avlAlea1000 = dirDados + "avl_alea_1000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 5000</p> **/
+	private static String avlAlea5000 = dirDados + "avl_alea_5000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 10000</p> **/
+	private static String avlAlea10000 = dirDados + "avl_alea_10000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 50000</p> **/
+	private static String avlAlea50000 = dirDados + "avl_alea_50000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 500</p> **/
+	private static String avlOrd500 = dirDados + "avl_ord_500.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 1000</p> **/
+	private static String avlOrd1000 = dirDados + "avl_ord_1000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 5000</p> **/
+	private static String avlOrd5000 = dirDados + "avl_ord_5000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 10000</p> **/
+	private static String avlOrd10000 = dirDados + "avl_ord_10000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 50000</p> **/
+	private static String avlOrd50000 = dirDados + "avl_ord_50000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 500</p> **/
+	private static String avlInv500 = dirDados + "avl_inv_500.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 1000</p> **/
+	private static String avlInv1000 = dirDados + "avl_inv_1000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 5000</p> **/
+	private static String avlInv5000 = dirDados + "avl_inv_5000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 10000</p> **/
+	private static String avlInv10000 = dirDados + "avl_inv_10000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
+	private static String avlInv50000 = dirDados + "avl_inv_50000.txt";	
 
 } // fecha classe
