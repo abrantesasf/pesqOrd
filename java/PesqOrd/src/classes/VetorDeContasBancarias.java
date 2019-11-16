@@ -57,7 +57,7 @@ public class VetorDeContasBancarias {
 	 * @return Objeto <code>ContaBancaria</code>
 	 */
 	public ContaBancaria getConta(int posicao) {
-		return this.vContas[posicao];
+		return this.vContas[posicao]; 
 	}
 
 	/** <p>Retorna a quantidade de contas bancárias já cadastradas no vetor</p> */
@@ -90,6 +90,14 @@ public class VetorDeContasBancarias {
 		}
 	}
 	
+	public String toString() {
+		String retorno = "";
+		for (int i = 0; i < vContas.length; i++) {
+			retorno += vContas[i].toString();
+		}
+		return retorno;
+	}
+	
 	/**
 	 * <p>Retorna <code>TRUE</code> se o vetor de contas estiver cheio,
 	 * ou <code>FALSE</code> caso contrário.</p>
@@ -98,7 +106,7 @@ public class VetorDeContasBancarias {
 		if (this.qtdDeContas == this.vContas.length) {
 			return true;
 		} else {
-			return false;
+			return false; 
 		}
 	}
 	
@@ -126,6 +134,26 @@ public class VetorDeContasBancarias {
 			this.vContas[this.qtdDeContas] = novaContaBancaria;
 			this.qtdDeContas++;
 			return true;
+		}
+	}
+	
+	/**
+	 * <p>Insere um novo objeto <code>ContaBancaria</code> no vetor de contas
+	 * bancárias, a partir de uma LISTA SIMPLES ENCADEADA onde cada nó é uma
+	 * conta bancária.</p>
+	 * 
+	 * @param (LSE) com Contas Bancárias
+	 */
+	public void inserirContaBancaria(LSE lista) {
+		if (this.estaCheio()) {
+			System.out.println("Está cheio.");
+		} else {
+			NoLSE atual = lista.getPrim();
+			while (atual != null) {
+				this.vContas[this.qtdDeContas] = atual.getConta();
+				this.qtdDeContas++;
+				atual = atual.getProx();
+			}
 		}
 	}
 	
