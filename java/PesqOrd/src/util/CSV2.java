@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import classes.ContaBancaria;
+import classes.VetorDeContasBancarias;
 
 
 /**
@@ -155,6 +156,40 @@ public class CSV2 {
 				saida.print(Double.toString(contas[i].getSaldo()));
 				saida.print(";");
 				saida.print(contas[i].getCPF());
+				saida.print(System.getProperty("line.separator"));
+			}
+			ok = true;
+			saida.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return ok;
+	}
+	
+	public boolean gravarArquivoDeContas(String arquivo, VetorDeContasBancarias vetContas, boolean header) {
+		boolean ok = false;
+		try {
+			// Instancia objeto do tipo PrintWriter, usanto UTF-8 por padrão
+			PrintWriter saida = new PrintWriter(arquivo, "UTF-8");
+
+			// Se tem cabeçalho, grava:
+			if (header) {
+				saida.print("agencia;numero;saldo;cpf");
+				saida.print(System.getProperty("line.separator"));
+			}
+
+			// Percorre o vetor e salva os dados no arquivo, colocando o separador
+			// ";" entre os campos e, ao final, o caractere de final de linha adequado para o SO
+			for (int i = 0; i < vetContas.getQtdDeContasNoVetor(); i++) {
+				saida.print(vetContas.getConta(i).getAgencia());
+				saida.print(";");
+				saida.print(vetContas.getConta(i).getConta());
+				saida.print(";");
+				saida.print(Double.toString(vetContas.getConta(i).getSaldo()));
+				saida.print(";");
+				saida.print(vetContas.getConta(i).getCPF());
 				saida.print(System.getProperty("line.separator"));
 			}
 			ok = true;
