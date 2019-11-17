@@ -281,10 +281,8 @@ public class PesqOrd {
 		try {
 			for (int j = 0; j < vResult.length; j++) {
 				saida.write("CPF " + vResult[j].getCPF() + ":\n");
-				//System.out.println("CPF " + vResult[j].getCPF() + ":");
 				if (vResult[j].getLista() == null) {
 					saida.write("NÃO HÁ CLIENTE COM O CPF " + vResult[j].getCPF() + "\n\n");
-					//System.out.println("NÃO HÁ CLIENTE COM O CPF " + vResult[j].getCPF() + "\n");
 				} else {
 					double saldoTotal = 0;
 					LSE listaTemp = vResult[j].getLista();
@@ -299,15 +297,10 @@ public class PesqOrd {
 						saida.write("Agência: " + atual.getConta().getAgencia() + "\t" +
 								    tipoConta   + atual.getConta().getConta()   + "\t" +
 							        "Saldo: "   + atual.getConta().getSaldo() + "\n");
-						//System.out.println("Agência: " + atual.getConta().getAgencia() + "\t" +
-						//		           tipoConta   + atual.getConta().getConta()   + "\t" +
-						//	               "Saldo: "   + atual.getConta().getSaldo()
-				        //                  );
 						saldoTotal += atual.getConta().getSaldo();
 						atual = atual.getProx();
 					}
 					saida.write("Saldo total: " + saldoTotal + "\n\n");
-					//System.out.println("Saldo total: " + saldoTotal + "\n");
 				}
 			}
 		} catch (Exception e) {
@@ -357,6 +350,7 @@ public class PesqOrd {
 			case 300:
 				vetContas = new VetorDeContasBancarias(contas.length);
 				abb = new ABB();
+				System.out.println("Carrega ABB");
 				for (int j = 0; j < contas.length; j++) {
 					ContaBancaria ct = new ContaBancaria(contas[j].getAgencia(),
 							                             contas[j].getConta(),
@@ -364,9 +358,14 @@ public class PesqOrd {
 							                             contas[j].getCPF());
 					abb.inserir(ct);
 				}
+				System.out.println("Faz in-ordem para montar vetor");
 				abb.percursoInOrdem(vetContas);
-				abb = new ABB();
-				abb.balancear(vetContas);
+				System.out.println("Faz balanceamento");
+				abb = abb.balancear(vetContas);
+				System.out.println("Gera resultados");
+				for (int j = 0; j < vResult.length; j++) {
+					vResult[j].setLista(abb.pesquisarCPF(vResult[j].getCPF()));
+				}
 				break;
 			case 400:
 				vetContas = new VetorDeContasBancarias(contas.length);
@@ -400,11 +399,9 @@ public class PesqOrd {
 				}
 				hash.hashParaVetor(contasTemp);
 				Quick.sort(contasTemp);
-				
 				for (int j = 0; j < vResult.length; j++) {
 					vResult[j].setLista(hash.procurarCPF(vResult[j].getCPF()));
 				}
-				//imprimirResultados();
 				break;
 			default:
 				System.out.println("Método de ordenação especificado não existe.");
@@ -416,14 +413,23 @@ public class PesqOrd {
 				csv2.gravarArquivoDeContas(output, contas, false);
 				break;
 			case 300:
+				csv2.gravarArquivoDeContas(output, vetContas, false);
+				String arquivoABB = output + "_RESULTADO.TXT";
+				try {
+					gravarResultados(arquivoABB);
+				} catch (IOException e) {
+					System.out.println("Erro na chamada do gravar resultado, o stack de erro é:");
+					e.printStackTrace();
+				}
+				break;
 			case 400:
 				csv2.gravarArquivoDeContas(output, vetContas, false);
 				break;
 			case 500:
 				csv2.gravarArquivoDeContas(output, contasTemp, false);
-				String arquivo = output + "_RESULTADO.TXT";
+				String arquivoHASH = output + "_RESULTADO.TXT";
 				try {
-					gravarResultados(arquivo);
+					gravarResultados(arquivoHASH);
 				} catch (IOException e) {
 					System.out.println("Erro na chamada do gravar resultado, o stack de erro é:");
 					e.printStackTrace();
