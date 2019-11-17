@@ -80,6 +80,57 @@ public class Hashing {
 	
 	
 	///////////////////////////////////////////////////
+	// Métodos para pesquisa CPF, retornando uma lista
+	// ou uma String
+	///////////////////////////////////////////////////	
+	
+	public LSE procurarCPF(String cpf) {
+		long chave = Long.parseLong(cpf);
+		int hashValue = calculaHashValue(chave);
+		
+		boolean ok = true;
+		while(ok && (hashValue != (hashValue-1))) {
+			LSE lista = vetContas[hashValue];
+			if (lista.eVazia()) {
+				return null;
+			}
+			else if ((!lista.eVazia()) && lista.getPrim().getConta().getCPF().equals(cpf)) {
+				return lista;
+			} else {
+				hashValue += 1;
+				if (hashValue == this.vetContas.length) {
+					hashValue = 0;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String procurarCPFs(String cpf) {
+		long chave = Long.parseLong(cpf);
+		int hashValue = calculaHashValue(chave);
+		
+		boolean ok = true;
+		while(ok && (hashValue != (hashValue-1))) {
+			LSE lista = vetContas[hashValue];
+			if (lista.eVazia()) {
+				return "";
+			}
+			else if ((!lista.eVazia()) && lista.getPrim().getConta().getCPF().equals(cpf)) {
+				return lista.getPrim().getConta().getCPF();
+			} else {
+				hashValue += 1;
+				if (hashValue == this.vetContas.length) {
+					hashValue = 0;
+				}
+			}
+		}
+		return "";
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
 	// Hashing para vetor
 	///////////////////////////////////////////////////
 	
