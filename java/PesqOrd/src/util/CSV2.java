@@ -201,5 +201,66 @@ public class CSV2 {
 		}
 		return ok;
 	}
+	
+	
+	
+	public boolean lerArquivoDeCPFs(String arquivo,
+                                    String[] vCPFs,
+                                    int numeroDeCampos,
+                                    String separador,
+                                    Boolean header
+                                   ) throws IOException {
+		String  linha = "";
+		boolean ok    = true;
+		int qtdIn = 0;
+
+		try {
+			// Cria objeto FileReader para "apontar" para o arquivo passado como argumento; e
+			// Cria objeto BufferedReader que lê o conteúdo do arquivo apontado pelo FileReader.
+			FileReader     arq    = new FileReader(arquivo);
+			BufferedReader lerArq = new BufferedReader(arq);
+
+			try {
+				// Se tem header, pula a linha de cabeçalho
+				if (header) {
+					lerArq.readLine();
+				}
+
+				// Enquanto ainda existem linhas a serem lidas e não há erros (ok = true):
+				while (((linha = lerArq.readLine()) != null) && ok) {
+					// Pega a próxima linha, divide os campos nos divisores e coloca em vetor
+					String[] vetor = linha.split(separador);
+
+					// Valida se o número de campos da linha está nos conformes
+					if (vetor.length != numeroDeCampos) {
+						ok = false;
+						this.mensagem = "Erro na estrutura do arquivo CSV: " + arquivo;
+						this.mensagem += "\nO número de campos encontrados é diferente do informado.";
+						System.out.println(this.mensagem);
+						break;
+					} else {
+						vCPFs[qtdIn] = vetor[0];
+						qtdIn++;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Erro não esperado. O StackTrace é: ");
+				e.printStackTrace();
+			} finally {
+				lerArq.close();
+				arq.close();
+			}
+
+		} catch (Exception e) {
+			System.out.println("Erro não esperado. O stack de erro é: ");
+			e.printStackTrace();
+		}
+		return ok;
+	}
+
+	
+	
+	
+	
 
 } // fecha a classe CSV2
