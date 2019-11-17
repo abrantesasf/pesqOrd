@@ -1,5 +1,8 @@
 package aplicacao;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 // Imports
 import java.util.Scanner;
 
@@ -8,7 +11,10 @@ import classes.AVL;
 import classes.ContaBancaria;
 import classes.Hashing;
 import classes.Heap;
+import classes.LSE;
+import classes.NoLSE;
 import classes.Quick;
+import classes.ResultadoBusca;
 import classes.VetorDeContasBancarias;
 //import classes.Selection;
 import util.Arquivos;
@@ -67,6 +73,17 @@ public class PesqOrd {
 	 */
 	public static void main(String[] args) {
 		
+		// Carrega e ordena os CPFs de teste, criando o vetor
+		// de resultados para as buscas e carregando os CPFs
+		// a serem buscados
+		carregaCPFs(arqCPFs);
+		Quick.sort(vCPFs);
+		vResult = new ResultadoBusca[vCPFs.length];
+		for (int i = 0; i < vCPFs.length; i++) {
+			vResult[i] = new ResultadoBusca();
+			vResult[i].setCPF(vCPFs[i]);
+		}
+		
 		// Mostra o menu para o usuário e chama todas as outras
 		// rotinas do trabalho:
 		menuPrincipal();
@@ -120,6 +137,17 @@ public class PesqOrd {
 	/** <p>Declara um hash table para o método hashing.</p> */
 	private static Hashing hash;
 	
+	/** <p>Cria o vetor com os CPFs de teste a serem pesquisados.</p> */
+	private static String[] vCPFs;
+	
+	/** <p>Cria um vetor para armazenar o resultado das buscas pelos CPFs.</p> */
+	private static ResultadoBusca[] vResult;
+	
+	/** <p>Cria buffer de saída para gravar os resultados.</p> */
+	private static BufferedWriter saida;
+	
+	
+	
 	/**
 	 * <p>Faz a leitura de um path para um arquivo de dados com as contas
 	 * bancárias e faz a carga no vetor <code>contas</code.</p>
@@ -138,6 +166,23 @@ public class PesqOrd {
 				}
 			} catch (Exception e) {
 				System.out.println("Não foi possível carregar as contas bancárias. O StackTrace é:");
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			System.out.println("Não foi possível encontrar/ler o arquivo. O StackTrace é:");
+			e.printStackTrace();
+		}
+	}
+	
+	private static void carregaCPFs(String arquivo) {
+		try {
+			int qtd = arq.contarLinhas(arquivo);
+			vCPFs = new String[qtd];
+			try {
+				if (csv2.lerArquivoDeCPFs(arquivo, vCPFs, 1, ";", false)) {
+				}
+			} catch (Exception e) {
+				System.out.println("Não foi possível carregas os números de CPF. O StackTrace é:");
 				e.printStackTrace();
 			}
 		} catch (Exception e) {
@@ -185,6 +230,93 @@ public class PesqOrd {
 		}
 		return soma / duracoesRegistradas.length;
 	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Método para imprimir o resultado das buscas
+	// pelos CPFs de teste
+	///////////////////////////////////////////////////
+	private static void imprimirResultados() {
+		for (int j = 0; j < vResult.length; j++) {
+			System.out.println("CPF " + vResult[j].getCPF() + ":");
+			if (vResult[j].getLista() == null) {
+				System.out.println("NÃO HÁ CLIENTE COM O CPF " + vResult[j].getCPF() + "\n");
+			} else {
+				double saldoTotal = 0;
+				LSE listaTemp = vResult[j].getLista();
+				NoLSE atual = listaTemp.getPrim();
+				while(atual != null) {
+					String tipoConta = "";
+					if (atual.getConta().getConta().substring(0, 3).equals("001")) {
+						tipoConta = "Conta Corrente: ";
+					} else {
+						tipoConta = "Conta Poupança: ";
+					}
+					System.out.println("Agência: " + atual.getConta().getAgencia() + "\t" +
+							           tipoConta   + atual.getConta().getConta()   + "\t" +
+							           "Saldo: "   + atual.getConta().getSaldo()
+				                      );
+					saldoTotal += atual.getConta().getSaldo();
+					atual = atual.getProx();
+				}
+				System.out.println("Saldo total: " + saldoTotal + "\n");
+			}
+		}
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Método para GRAVAR o resultado das buscas
+	// pelos CPFs de teste
+	///////////////////////////////////////////////////
+	private static void gravarResultados(String arquivo) throws IOException {
+		try {
+			saida = new BufferedWriter(new FileWriter(arquivo));
+		} catch (IOException e) {
+			System.out.println("Erro ao abrir o arquivo para gravar os resultados, o stack de erro é:");
+			e.printStackTrace();
+		}
+		try {
+			for (int j = 0; j < vResult.length; j++) {
+				saida.write("CPF " + vResult[j].getCPF() + ":\n");
+				//System.out.println("CPF " + vResult[j].getCPF() + ":");
+				if (vResult[j].getLista() == null) {
+					saida.write("NÃO HÁ CLIENTE COM O CPF " + vResult[j].getCPF() + "\n\n");
+					//System.out.println("NÃO HÁ CLIENTE COM O CPF " + vResult[j].getCPF() + "\n");
+				} else {
+					double saldoTotal = 0;
+					LSE listaTemp = vResult[j].getLista();
+					NoLSE atual = listaTemp.getPrim();
+					while(atual != null) {
+						String tipoConta = "";
+						if (atual.getConta().getConta().substring(0, 3).equals("001")) {
+							tipoConta = "Conta Corrente: ";
+						} else {
+							tipoConta = "Conta Poupança: ";
+						}
+						saida.write("Agência: " + atual.getConta().getAgencia() + "\t" +
+								    tipoConta   + atual.getConta().getConta()   + "\t" +
+							        "Saldo: "   + atual.getConta().getSaldo() + "\n");
+						//System.out.println("Agência: " + atual.getConta().getAgencia() + "\t" +
+						//		           tipoConta   + atual.getConta().getConta()   + "\t" +
+						//	               "Saldo: "   + atual.getConta().getSaldo()
+				        //                  );
+						saldoTotal += atual.getConta().getSaldo();
+						atual = atual.getProx();
+					}
+					saida.write("Saldo total: " + saldoTotal + "\n\n");
+					//System.out.println("Saldo total: " + saldoTotal + "\n");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Erro na gração, o stack é:");
+			e.printStackTrace();
+		} finally {
+			saida.close();
+		}
+	}	
 	
 	
 	
@@ -268,6 +400,11 @@ public class PesqOrd {
 				}
 				hash.hashParaVetor(contasTemp);
 				Quick.sort(contasTemp);
+				
+				for (int j = 0; j < vResult.length; j++) {
+					vResult[j].setLista(hash.procurarCPF(vResult[j].getCPF()));
+				}
+				//imprimirResultados();
 				break;
 			default:
 				System.out.println("Método de ordenação especificado não existe.");
@@ -284,6 +421,13 @@ public class PesqOrd {
 				break;
 			case 500:
 				csv2.gravarArquivoDeContas(output, contasTemp, false);
+				String arquivo = output + "_RESULTADO.TXT";
+				try {
+					gravarResultados(arquivo);
+				} catch (IOException e) {
+					System.out.println("Erro na chamada do gravar resultado, o stack de erro é:");
+					e.printStackTrace();
+				}
 				break;
 			default:
 				System.out.println("Não foi possível determinar o arquivo a ser gravado pelo CSV2.");
@@ -800,6 +944,9 @@ public class PesqOrd {
 	
 	/** <p>String com o path completo até arquivo cliente50000inv.txt.</p> */
 	private static String inv50000 = dirDados + "cliente50000inv.txt";
+	
+	/** <p>String com o path completo até o arquivo Cliente.txt</p> */
+	private static String arqCPFs = dirDados + "Cliente.txt";
 	
 	
 	
