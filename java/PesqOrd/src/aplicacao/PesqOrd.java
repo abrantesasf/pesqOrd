@@ -350,7 +350,7 @@ public class PesqOrd {
 			case 300:
 				vetContas = new VetorDeContasBancarias(contas.length);
 				abb = new ABB();
-				System.out.println("Carrega ABB");
+				//System.out.println("Carrega ABB");
 				for (int j = 0; j < contas.length; j++) {
 					ContaBancaria ct = new ContaBancaria(contas[j].getAgencia(),
 							                             contas[j].getConta(),
@@ -358,11 +358,11 @@ public class PesqOrd {
 							                             contas[j].getCPF());
 					abb.inserir(ct);
 				}
-				System.out.println("Faz in-ordem para montar vetor");
+				//System.out.println("Faz in-ordem para montar vetor");
 				abb.percursoInOrdem(vetContas);
-				System.out.println("Faz balanceamento");
+				//System.out.println("Faz balanceamento");
 				abb = abb.balancear(vetContas);
-				System.out.println("Gera resultados");
+				//System.out.println("Gera resultados");
 				for (int j = 0; j < vResult.length; j++) {
 					vResult[j].setLista(abb.pesquisarCPF(vResult[j].getCPF()));
 				}
@@ -378,14 +378,17 @@ public class PesqOrd {
 					avl.inserir(ct);
 				}
 				avl.percursoInOrdem(vetContas);
-				avl = new AVL();
-				for (int j = 0; j < vetContas.getQtdDeContasNoVetor(); j++) {
-					ContaBancaria ct = new ContaBancaria(vetContas.getConta(j).getAgencia(),
-							                             vetContas.getConta(j).getConta(),
-							                             vetContas.getConta(j).getSaldo(),
-							                             vetContas.getConta(j).getCPF());
-					avl.inserir(ct);
+				for (int j = 0; j < vResult.length; j++) {
+					vResult[j].setLista(avl.pesquisarCPF(vResult[j].getCPF()));
 				}
+				//avl = new AVL();
+				//for (int j = 0; j < vetContas.getQtdDeContasNoVetor(); j++) {
+				//	ContaBancaria ct = new ContaBancaria(vetContas.getConta(j).getAgencia(),
+				//			                             vetContas.getConta(j).getConta(),
+				//			                             vetContas.getConta(j).getSaldo(),
+				//			                             vetContas.getConta(j).getCPF());
+				//	avl.inserir(ct);
+				//}
 				break;
 			case 500:
 				hash = new Hashing(contas.length);
@@ -424,6 +427,13 @@ public class PesqOrd {
 				break;
 			case 400:
 				csv2.gravarArquivoDeContas(output, vetContas, false);
+				String arquivoAVL = output + "_RESULTADO.TXT";
+				try {
+					gravarResultados(arquivoAVL);
+				} catch (IOException e) {
+					System.out.println("Erro na chamada do gravar resultado, o stack de erro é:");
+					e.printStackTrace();
+				}
 				break;
 			case 500:
 				csv2.gravarArquivoDeContas(output, contasTemp, false);
