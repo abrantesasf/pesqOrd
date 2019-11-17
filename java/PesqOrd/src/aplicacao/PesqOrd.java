@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import classes.ABB;
 import classes.AVL;
+import classes.BinarySearch;
 import classes.ContaBancaria;
 import classes.Hashing;
 import classes.Heap;
@@ -342,7 +343,10 @@ public class PesqOrd {
 			carregaContas(input);
 			switch (metodo) {
 			case 100:
+				//System.out.println("Faz o sort");
 				Heap.sort(contas);
+				//System.out.println("Faz a binary search");
+				BinarySearch.pesquisarCPFs(vResult, contas);
 				break;
 			case 200:
 				Quick.sort(contas);
@@ -412,6 +416,14 @@ public class PesqOrd {
 			}
 			switch (metodo) {
 			case 100:
+				csv2.gravarArquivoDeContas(output, contas, false);
+				String arquivoHeap = output + "_RESULTADO.TXT";
+				try {
+					gravarResultados(arquivoHeap);
+				} catch (IOException e) {
+					System.out.println("Erro na chamada do gravar resultado, o stack de erro é:");
+					e.printStackTrace();
+				}
 			case 200:
 				csv2.gravarArquivoDeContas(output, contas, false);
 				break;
