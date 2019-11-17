@@ -110,38 +110,7 @@ public class ABB {
 			this.raiz = this.inserir(conta, this.raiz);
 		}
 		return true;
-		
-//		NoABB existente;
-//		
-//		existente = this.pesquisa(conta.getCPF(), this.raiz);
-//		if (existente != null) {
-//			existente.getLista().inserirOrdenado2(conta);
-//		}
-//		else {
-//			this.raiz = this.inserir(conta, this.raiz);
-//		}
-//		return true;
 	}
-	
-//	private NoABB inserir(ContaBancaria conta, NoABB no) {
-//		NoABB novo;
-//		
-//		if (no == null) {
-//			novo = new NoABB(conta.getCPF());
-//			novo.getLista().inserirOrdenado2(conta);
-//			return novo;
-//		}
-//		else {
-//			if(compararCPF(conta.getCPF(), no.getCPF()) < 0) {
-//				no.setEsq(this.inserir(conta, no.getEsq()));
-//				return no;
-//			}
-//			else {
-//				no.setDir(this.inserir(conta, no.getDir()));
-//				return no;
-//			}
-//		}
-//	}
 	
 	private NoABB inserir(ContaBancaria conta, NoABB no) {
 		NoABB novo;
