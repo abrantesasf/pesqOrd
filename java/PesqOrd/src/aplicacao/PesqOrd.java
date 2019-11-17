@@ -6,6 +6,7 @@ import java.util.Scanner;
 import classes.ABB;
 import classes.AVL;
 import classes.ContaBancaria;
+import classes.Hashing;
 import classes.Heap;
 import classes.Quick;
 import classes.VetorDeContasBancarias;
@@ -104,6 +105,9 @@ public class PesqOrd {
 	/** <p>Cria vetor de ContaBancaria para armazenar as contas lidas.</p> */
 	private static ContaBancaria[] contas;
 	
+	/** <p>Cria vetor de ContaBancaria temporário, para o método Hashing.</p> */
+	private static ContaBancaria[] contasTemp;
+	
 	/** <p>Cria instância da classe VetorDeContasBancarias para as operações com árvores.</p> */
 	private static VetorDeContasBancarias vetContas;
 	
@@ -112,6 +116,9 @@ public class PesqOrd {
 	
 	/** <p>Declara uma AVL para o método da AVL.</p> */
 	private static AVL avl;
+	
+	/** <p>Declara um hash table para o método hashing.</p> */
+	private static Hashing hash;
 	
 	/**
 	 * <p>Faz a leitura de um path para um arquivo de dados com as contas
@@ -249,6 +256,19 @@ public class PesqOrd {
 					avl.inserir(ct);
 				}
 				break;
+			case 500:
+				hash = new Hashing(contas.length);
+				contasTemp = new ContaBancaria[contas.length];
+				for (int j = 0; j < contas.length; j++) {
+					ContaBancaria ct = new ContaBancaria(contas[j].getAgencia(),
+                                                         contas[j].getConta(),
+                                                         contas[j].getSaldo(),
+                                                         contas[j].getCPF());
+					hash.inserirConta(ct);
+				}
+				hash.hashParaVetor(contasTemp);
+				Quick.sort(contasTemp);
+				break;
 			default:
 				System.out.println("Método de ordenação especificado não existe.");
 				break;
@@ -259,7 +279,11 @@ public class PesqOrd {
 				csv2.gravarArquivoDeContas(output, contas, false);
 				break;
 			case 300:
+			case 400:
 				csv2.gravarArquivoDeContas(output, vetContas, false);
+				break;
+			case 500:
+				csv2.gravarArquivoDeContas(output, contasTemp, false);
 				break;
 			default:
 				System.out.println("Não foi possível determinar o arquivo a ser gravado pelo CSV2.");
@@ -288,6 +312,7 @@ public class PesqOrd {
 			                   "200) Quicksort + Binary Search:\n" +
                                "300) ABB Balanceada:\n" +
 			                   "400) Árvore AVL:\n" +
+                               "500) Hashing:\n" +
 			                   "999) Sai da aplicação\n" +
 			                   "------------------------------------------\n"
 	                          );
@@ -307,6 +332,9 @@ public class PesqOrd {
 				break;
 			case 400:
 				menuAVL();
+				break;
+			case 500:
+				menuHashing();
 				break;
 			case 999:
 				System.out.println("Encerrando o programa.");
@@ -505,7 +533,7 @@ public class PesqOrd {
 	// (NÃO ALTERE!)
 	///////////////////////////////////////////////////	
 	
-	/** <p>Exibe o menu para o Quickort</p> */	
+	/** <p>Exibe o menu para ABB Balanceada</p> */	
 	private static void menuABB() {
 		submenuOption = 0;
 		do {
@@ -579,7 +607,7 @@ public class PesqOrd {
 	// (NÃO ALTERE!)
 	///////////////////////////////////////////////////	
 	
-	/** <p>Exibe o menu para o Quickort</p> */	
+	/** <p>Exibe o menu para a árvore AVL</p> */	
 	private static void menuAVL() {
 		submenuOption = 0;
 		do {
@@ -591,49 +619,49 @@ public class PesqOrd {
 			
 			switch (submenuOption) {
 			case 1:
-				fazTrabalho(alea500, 300, avlAlea500);
+				fazTrabalho(alea500, 400, avlAlea500);
 				break;
 			case 2:
-				fazTrabalho(alea1000, 300, avlAlea1000);
+				fazTrabalho(alea1000, 400, avlAlea1000);
 				break;
 			case 3:
-				fazTrabalho(alea5000, 300, avlAlea5000);
+				fazTrabalho(alea5000, 400, avlAlea5000);
 				break;
 			case 4:
-				fazTrabalho(alea10000, 300, avlAlea10000);
+				fazTrabalho(alea10000, 400, avlAlea10000);
 				break;
 			case 5:
-				fazTrabalho(alea50000, 300, avlAlea50000);
+				fazTrabalho(alea50000, 400, avlAlea50000);
 				break;
 			case 6:
-				fazTrabalho(ord500, 300, avlOrd500);
+				fazTrabalho(ord500, 400, avlOrd500);
 				break;
 			case 7:
-				fazTrabalho(ord1000, 300, avlOrd1000);
+				fazTrabalho(ord1000, 400, avlOrd1000);
 				break;
 			case 8:
-				fazTrabalho(ord5000, 300, avlOrd5000);
+				fazTrabalho(ord5000, 400, avlOrd5000);
 				break;
 			case 9:
-				fazTrabalho(ord10000, 300, avlOrd10000);
+				fazTrabalho(ord10000, 400, avlOrd10000);
 				break;
 			case 10:
-				fazTrabalho(ord50000, 300, avlOrd50000);
+				fazTrabalho(ord50000, 400, avlOrd50000);
 				break;
 			case 11:
-				fazTrabalho(inv500, 300, avlInv500);
+				fazTrabalho(inv500, 400, avlInv500);
 				break;
 			case 12:
-				fazTrabalho(inv1000, 300, avlInv1000);
+				fazTrabalho(inv1000, 400, avlInv1000);
 				break;
 			case 13:
-				fazTrabalho(inv5000, 300, avlInv5000);
+				fazTrabalho(inv5000, 400, avlInv5000);
 				break;
 			case 14:
-				fazTrabalho(inv10000, 300, avlInv10000);
+				fazTrabalho(inv10000, 400, avlInv10000);
 				break;
 			case 15:
-				fazTrabalho(inv50000, 300, avlInv50000);
+				fazTrabalho(inv50000, 400, avlInv50000);
 				break;
 			case 99:
 				System.out.println("Retornando ao menu principal");
@@ -644,7 +672,81 @@ public class PesqOrd {
 			}
 			
 		} while (submenuOption != 99);
-	}		
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Menu para o Hashing
+	// (NÃO ALTERE!)
+	///////////////////////////////////////////////////	
+	
+	/** <p>Exibe o menu para o Hashing</p> */	
+	private static void menuHashing() {
+		submenuOption = 0;
+		do {
+			System.out.println("-------- Hashing -------");
+			opcoesSubMenu();
+			System.out.print("Sua opção é: ");
+			submenuOption = scan.nextInt();
+			scan.nextLine();
+			
+			switch (submenuOption) {
+			case 1:
+				fazTrabalho(alea500, 500, hashAlea500);
+				break;
+			case 2:
+				fazTrabalho(alea1000, 500, hashAlea1000);
+				break;
+			case 3:
+				fazTrabalho(alea5000, 500, hashAlea5000);
+				break;
+			case 4:
+				fazTrabalho(alea10000, 500, hashAlea10000);
+				break;
+			case 5:
+				fazTrabalho(alea50000, 500, hashAlea50000);
+				break;
+			case 6:
+				fazTrabalho(ord500, 500, hashOrd500);
+				break;
+			case 7:
+				fazTrabalho(ord1000, 500, hashOrd1000);
+				break;
+			case 8:
+				fazTrabalho(ord5000, 500, hashOrd5000);
+				break;
+			case 9:
+				fazTrabalho(ord10000, 500, hashOrd10000);
+				break;
+			case 10:
+				fazTrabalho(ord50000, 500, hashOrd50000);
+				break;
+			case 11:
+				fazTrabalho(inv500, 500, hashInv500);
+				break;
+			case 12:
+				fazTrabalho(inv1000, 500, hashInv1000);
+				break;
+			case 13:
+				fazTrabalho(inv5000, 500, hashInv5000);
+				break;
+			case 14:
+				fazTrabalho(inv10000, 500, hashInv10000);
+				break;
+			case 15:
+				fazTrabalho(inv50000, 500, hashInv50000);
+				break;
+			case 99:
+				System.out.println("Retornando ao menu principal");
+				break;
+			default:
+				System.out.println("Opção não reconhecida, informe novamente.");
+				break;
+			}
+			
+		} while (submenuOption != 99);
+	}	
 	
 	
 	
@@ -910,5 +1012,58 @@ public class PesqOrd {
 
 	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
 	private static String avlInv50000 = dirDados + "avl_inv_50000.txt";	
+	
+	
+	
+	///////////////////////////////////////////////////
+	// Atributos estáticos para dizer onde os arquivos
+	// de saída da HASHING serão gravados
+	// (NÃO ALTERE ESSES ATRIBUTOS!)
+	///////////////////////////////////////////////////
+
+	/** <p>String com o path completo até o arquivo aleatório 500</p> **/
+	private static String hashAlea500 = dirDados + "hash_alea_500.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 1000</p> **/
+	private static String hashAlea1000 = dirDados + "hash_alea_1000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 5000</p> **/
+	private static String hashAlea5000 = dirDados + "hash_alea_5000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 10000</p> **/
+	private static String hashAlea10000 = dirDados + "hash_alea_10000.txt";
+
+	/** <p>String com o path completo até o arquivo aleatório 50000</p> **/
+	private static String hashAlea50000 = dirDados + "hash_alea_50000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 500</p> **/
+	private static String hashOrd500 = dirDados + "hash_ord_500.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 1000</p> **/
+	private static String hashOrd1000 = dirDados + "hash_ord_1000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 5000</p> **/
+	private static String hashOrd5000 = dirDados + "hash_ord_5000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 10000</p> **/
+	private static String hashOrd10000 = dirDados + "hash_ord_10000.txt";
+
+	/** <p>String com o path completo até o arquivo ordenado 50000</p> **/
+	private static String hashOrd50000 = dirDados + "hash_ord_50000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 500</p> **/
+	private static String hashInv500 = dirDados + "hash_inv_500.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 1000</p> **/
+	private static String hashInv1000 = dirDados + "hash_inv_1000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 5000</p> **/
+	private static String hashInv5000 = dirDados + "hash_inv_5000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 10000</p> **/
+	private static String hashInv10000 = dirDados + "hash_inv_10000.txt";
+
+	/** <p>String com o path completo até o arquivo invertido 50000</p> **/
+	private static String hashInv50000 = dirDados + "hash_inv_50000.txt";		
 
 } // fecha classe
