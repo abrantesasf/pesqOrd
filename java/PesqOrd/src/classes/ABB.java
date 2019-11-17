@@ -91,6 +91,22 @@ public class ABB {
 		return temp;
 	}
 	
+	
+	
+	///////////////////////////////////////////////////
+	// Pesquisar por CPF e retornar a lista de contas
+	///////////////////////////////////////////////////
+	
+	public LSE pesquisarCPF(String cpf) {
+		NoABB temp;
+		temp = this.pesquisa(cpf, this.raiz);
+		if (temp != null) {
+			return temp.getLista();
+		} else {
+			return null;
+		}
+	}
+	
 
 	
 	///////////////////////////////////////////////////
