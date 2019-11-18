@@ -162,9 +162,10 @@ public class PesqOrd {
 			int qtd = arq.contarLinhas(arquivo);
 			contas = new ContaBancaria[qtd];
 			try {
-				if (csv2.lerArquivoDeContas(arquivo, contas, 4, ";", false)) {
-					System.out.println("Arquivo carregado com sucesso!");
-				}
+				csv2.lerArquivoDeContas(arquivo, contas, 4, ";", false);
+				//if (csv2.lerArquivoDeContas(arquivo, contas, 4, ";", false)) {
+				//	System.out.println("Arquivo carregado com sucesso!");
+				//}
 			} catch (Exception e) {
 				System.out.println("Não foi possível carregar as contas bancárias. O StackTrace é:");
 				e.printStackTrace();
@@ -474,6 +475,8 @@ public class PesqOrd {
 		menuOption = 0;
 		do {
 			System.out.println("------------- MENU DE OPÇÕES -------------\n" +
+		                       "1) EXECUÇÃO EM LOTE: TODOS OS MÉTODOS\n" +
+					           "------------------------------------------\n" +
                                "100) Heap Sort + Binary Search:\n" +
 			                   "200) Quicksort + Binary Search:\n" +
                                "300) ABB Balanceada:\n" +
@@ -487,6 +490,9 @@ public class PesqOrd {
 			scan.nextLine();
 			
 			switch (menuOption) {
+			case 1:
+				execucaoEmLote();
+				break;
 			case 100:
 				menuHeap();
 				break;
@@ -912,7 +918,251 @@ public class PesqOrd {
 			}
 			
 		} while (submenuOption != 99);
-	}	
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// MÉTODO PARA EXECUÇÃO EM LOTE DE TODOS OS TESTES
+	// (NÃO ALTERE!)
+	///////////////////////////////////////////////////	
+	
+	/** <p>Executa em lote todo o trabalho</p> */	
+	private static void execucaoEmLote() {
+		System.out.println(">>> Heap Sort + Binary Search: 500 elementos aleatórios");
+		fazTrabalho(alea500, 100, heapAlea500);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 1.000 elementos aleatórios");
+		fazTrabalho(alea1000, 100, heapAlea1000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 5.000 elementos aleatórios");
+		fazTrabalho(alea5000, 100, heapAlea5000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 10.000 elementos aleatórios");
+		fazTrabalho(alea10000, 100, heapAlea10000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 50.000 elementos aleatórios");
+		fazTrabalho(alea50000, 100, heapAlea50000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 500 elementos ordenados");
+		fazTrabalho(ord500, 100, heapOrd500);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 1.000 elementos ordenados");
+		fazTrabalho(ord1000, 100, heapOrd1000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 5.000 elementos ordenados");
+		fazTrabalho(ord5000, 100, heapOrd5000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 10.000 elementos ordenados");
+		fazTrabalho(ord10000, 100, heapOrd10000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 50.000 elementos ordenados");
+		fazTrabalho(ord50000, 100, heapOrd50000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 500 elementos invertidos");
+		fazTrabalho(inv500, 100, heapInv500);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 1.000 elementos invertidos");
+		fazTrabalho(inv1000, 100, heapInv1000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 5.000 elementos invertidos");
+		fazTrabalho(inv5000, 100, heapInv5000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 10.000 elementos invertidos");
+		fazTrabalho(inv10000, 100, heapInv10000);
+		System.out.println("");
+		System.out.println(">>> Heap Sort + Binary Search: 50.000 elementos invertidos");
+		fazTrabalho(inv50000, 100, heapInv50000);
+		System.out.println("");
+		
+		System.out.println(">>> Quickort + Binary Search: 500 elementos aleatórios");
+		fazTrabalho(alea500, 200, quickAlea500);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 1.000 elementos aleatórios");
+		fazTrabalho(alea1000, 200, quickAlea1000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 5.000 elementos aleatórios");
+		fazTrabalho(alea5000, 200, quickAlea5000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 10.000 elementos aleatórios");
+		fazTrabalho(alea10000, 200, quickAlea10000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 50.000 elementos aleatórios");
+		fazTrabalho(alea50000, 200, quickAlea50000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 500 elementos ordenados");
+		fazTrabalho(ord500, 200, quickOrd500);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 1.000 elementos ordenados");
+		fazTrabalho(ord1000, 200, quickOrd1000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 5.000 elementos ordenados");
+		fazTrabalho(ord5000, 200, quickOrd5000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 10.000 elementos ordenados");
+		fazTrabalho(ord10000, 200, quickOrd10000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 50.000 elementos ordenados");
+		fazTrabalho(ord50000, 200, quickOrd50000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 500 elementos invertidos");
+		fazTrabalho(inv500, 200, quickInv500);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 1.000 elementos invertidos");
+		fazTrabalho(inv1000, 200, quickInv1000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 5.000 elementos invertidos");
+		fazTrabalho(inv5000, 200, quickInv5000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 10.000 elementos invertidos");
+		fazTrabalho(inv10000, 200, quickInv10000);
+		System.out.println("");
+		System.out.println(">>> Quickort + Binary Search: 50.000 elementos invertidos");
+		fazTrabalho(inv50000, 200, quickInv50000);
+		System.out.println("");
+		
+		System.out.println(">>> ABB Balanceada: 500 elementos aleatórios");
+		fazTrabalho(alea500, 300, abbAlea500);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 1.000 elementos aleatórios");
+		fazTrabalho(alea1000, 300, abbAlea1000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 5.000 elementos aleatórios");
+		fazTrabalho(alea5000, 300, abbAlea5000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 10.000 elementos aleatórios");
+		fazTrabalho(alea10000, 300, abbAlea10000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 50.000 elementos aleatórios");
+		fazTrabalho(alea50000, 300, abbAlea50000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 500 elementos ordenados");
+		fazTrabalho(ord500, 300, abbOrd500);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 1.000 elementos ordenados");
+		fazTrabalho(ord1000, 300, abbOrd1000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 5.000 elementos ordenados");
+		fazTrabalho(ord5000, 300, abbOrd5000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 10.000 elementos ordenados");
+		fazTrabalho(ord10000, 300, abbOrd10000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 50.000 elementos ordenados");
+		fazTrabalho(ord50000, 300, abbOrd50000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 500 elementos invertidos");
+		fazTrabalho(inv500, 300, abbInv500);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 1.000 elementos invertidos");
+		fazTrabalho(inv1000, 300, abbInv1000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 5.000 elementos invertidos");
+		fazTrabalho(inv5000, 300, abbInv5000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 10.000 elementos invertidos");
+		fazTrabalho(inv10000, 300, abbInv10000);
+		System.out.println("");
+		System.out.println(">>> ABB Balanceada: 50.000 elementos invertidos");
+		fazTrabalho(inv50000, 300, abbInv50000);
+		System.out.println("");
+		
+		System.out.println(">>> Árvore AVL: 500 elementos aleatórios");
+		fazTrabalho(alea500, 400, avlAlea500);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 1.000 elementos aleatórios");
+		fazTrabalho(alea1000, 400, avlAlea1000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 5.000 elementos aleatórios");
+		fazTrabalho(alea5000, 400, avlAlea5000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 10.000 elementos aleatórios");
+		fazTrabalho(alea10000, 400, avlAlea10000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 50.000 elementos aleatórios");
+		fazTrabalho(alea50000, 400, avlAlea50000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 500 elementos ordenados");
+		fazTrabalho(ord500, 400, avlOrd500);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 1.000 elementos ordenados");
+		fazTrabalho(ord1000, 400, avlOrd1000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 5.000 elementos ordenados");
+		fazTrabalho(ord5000, 400, avlOrd5000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 10.000 elementos ordenados");
+		fazTrabalho(ord10000, 400, avlOrd10000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 50.000 elementos ordenados");
+		fazTrabalho(ord50000, 400, avlOrd50000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 500 elementos invertidos");
+		fazTrabalho(inv500, 400, avlInv500);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 1.000 elementos invertidos");
+		fazTrabalho(inv1000, 400, avlInv1000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 5.000 elementos invertidos");
+		fazTrabalho(inv5000, 400, avlInv5000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 10.000 elementos invertidos");
+		fazTrabalho(inv10000, 400, avlInv10000);
+		System.out.println("");
+		System.out.println(">>> Árvore AVL: 50.000 elementos invertidos");
+		fazTrabalho(inv50000, 400, avlInv50000);
+		System.out.println("");
+		
+		System.out.println(">>> Hashing: 500 elementos aleatórios");
+		fazTrabalho(alea500, 500, hashAlea500);
+		System.out.println("");
+		System.out.println(">>> Hashing: 1.000 elementos aleatórios");
+		fazTrabalho(alea1000, 500, hashAlea1000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 5.000 elementos aleatórios");
+		fazTrabalho(alea5000, 500, hashAlea5000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 10.000 elementos aleatórios");
+		fazTrabalho(alea10000, 500, hashAlea10000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 50.000 elementos aleatórios");
+		fazTrabalho(alea50000, 500, hashAlea50000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 500 elementos ordenados");
+		fazTrabalho(ord500, 500, hashOrd500);
+		System.out.println("");
+		System.out.println(">>> Hashing: 1.000 elementos ordenados");
+		fazTrabalho(ord1000, 500, hashOrd1000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 5.000 elementos ordenados");
+		fazTrabalho(ord5000, 500, hashOrd5000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 10.000 elementos ordenados");
+		fazTrabalho(ord10000, 500, hashOrd10000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 50.000 elementos ordenados");
+		fazTrabalho(ord50000, 500, hashOrd50000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 500 elementos invertidos");
+		fazTrabalho(inv500, 500, hashInv500);
+		System.out.println("");
+		System.out.println(">>> Hashing: 1.000 elementos invertidos");
+		fazTrabalho(inv1000, 500, hashInv1000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 5.000 elementos invertidos");
+		fazTrabalho(inv5000, 500, hashInv5000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 10.000 elementos invertidos");
+		fazTrabalho(inv10000, 500, hashInv10000);
+		System.out.println("");
+		System.out.println(">>> Hashing: 50.000 elementos invertidos");
+		fazTrabalho(inv50000, 500, hashInv50000);
+		System.out.println("");
+		
+		System.out.println("Encerrando o programa...");
+		System.out.println("Moriturus te saluto!");
+		System.exit(0);
+	}		
 	
 	
 	
