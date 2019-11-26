@@ -1,9 +1,12 @@
 package classes;
 
 /**
- * <p>A classe <code><b>Insertion</b></code> implementa o método de ordenação <b>Insertion Sort</b>
- * que será utilizado em casos especiais no trabalho final da disciplina de Pesquisa e Ordenação,
- * do curso de Ciência da Computação, da FAESA.</p>
+ * <p>A classe <code><b>Insertion</b></code> implementa o método de ordenação
+ * <b>Insertion Sort</b>, que pode ser utilizado em casos especiais.
+ * 
+ * ATENÇÃO: esta classe NÃO ESTÁ SENDO UTILIZADA para o trabalho final da
+ * disciplina de Pesquisa e Ordenação, do curso de Ciência da Computação,
+ * da FAESA.</p>
  * 
  * <p>Os métodos utilizados aqui foram retirados/modificados de:</p>
  * <ul>

@@ -54,7 +54,7 @@ public class PesqOrd {
 	 * <p><b>Atenção</b>: não altere os nomes padronizados
 	 * dos arquivos que foram fornecidos pela profa. Cinthia, pois esta classe
 	 * depende dos nomes padronizados para execução.</p> */
-	private static String dirDados = "/home/abrantesasf/repositoriosGit/pesqOrd/dados/";
+	private static String dirDados = "./src/dados/";
 	
 	/** <p>Quantas vezes você repetirá cada método de ordenação para calcular
 	 * a média de duração? O padrão é 5 vezes. */
@@ -163,6 +163,7 @@ public class PesqOrd {
 			contas = new ContaBancaria[qtd];
 			try {
 				csv2.lerArquivoDeContas(arquivo, contas, 4, ";", false);
+				// Se quiser um aviso que o arquivo foi lido com sucesso, descomentar:
 				//if (csv2.lerArquivoDeContas(arquivo, contas, 4, ";", false)) {
 				//	System.out.println("Arquivo carregado com sucesso!");
 				//}
@@ -239,6 +240,7 @@ public class PesqOrd {
 	// Método para imprimir o resultado das buscas
 	// pelos CPFs de teste
 	///////////////////////////////////////////////////
+	@SuppressWarnings("unused")
 	private static void imprimirResultados() {
 		for (int j = 0; j < vResult.length; j++) {
 			System.out.println("CPF " + vResult[j].getCPF() + ":");

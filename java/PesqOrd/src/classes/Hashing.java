@@ -1,5 +1,18 @@
 package classes;
 
+/**
+ * <p>A classe <code><b>Hashing</b></code> implementa um Hash para
+ * armazenar e pesquisar por CPFs. As colisões foram tratadas da seguinte
+ * maneira:
+ *   - Se ocorrer uma colisão e o CPF for diferente, vai para a próxima
+ *     posição no hash;
+ *   - Se ocorrer uma colisão e o CPF for igual, armazena na posição calculada,
+ *     dentro de uma lista encadeada, de modo já ordenado. 
+ * Esta classe será utilizada no trabalho final da disciplina de Pesquisa
+ * e Ordenação, do curso de Ciência da Computação, da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho (<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>)
+ */
 public class Hashing {
 	
 	///////////////////////////////////////////////////

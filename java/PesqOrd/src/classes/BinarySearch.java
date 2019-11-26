@@ -1,5 +1,13 @@
 package classes;
 
+/**
+ * <p>A classe <code><b>BinarySearch</b></code> implementa a Binary Search
+ * para pesquisar por CPFs ordenados pelo Heap Sort e o Quicksort, 
+ * conforme as especificações do trabalho final da disciplina de Pesquisa
+ * e Ordenação, do curso de Ciência da Computação, da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho (<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>)
+ */
 public class BinarySearch {
 	
     ///////////////////////////////////////////////////
@@ -56,7 +64,7 @@ public class BinarySearch {
 					break;
 				} else {
 					if (Long.parseLong(vResult[i].getCPF()) < Long.parseLong(contas[meio].getCPF())) {
-						dir = meio -1;
+						dir = meio - 1;
 					} else {
 						esq = meio + 1;
 					}
