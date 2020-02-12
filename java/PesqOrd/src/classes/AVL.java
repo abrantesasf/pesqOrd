@@ -1,5 +1,13 @@
 package classes;
 
+/**
+ * <p>A classe <code><b>AVL</b></code> implementa uma árvore AVL
+ * para armazenar os dados utilizados no no trabalho
+ * final da disciplina de Pesquisa e Ordenação, do curso de Ciência da
+ * Computação, da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho (<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>)
+ */
 public class AVL {
 	
 	///////////////////////////////////////////////////

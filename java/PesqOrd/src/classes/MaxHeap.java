@@ -3,10 +3,13 @@ package classes;
 /**
  * <p>A classe <code><b>MaxHeap</b></code> implementa a estrutura de dados
  * heap binário máximo, com os métodos a serem utilizados para a construção,
- * ordenação e busca. É utilizada no trabalho final da disciplina de
- * Pesquisa e Ordenação, do curso de Ciência da Computação, da FAESA.</p>
+ * ordenação e busca.
  * 
- * @author Abrantes Araújo Silva Filho ({@link<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>})
+ * ATENÇÃO: esta classe NÃO ESTÁ SENDO UTILIZADA para o trabalho final da
+ * disciplina de Pesquisa e Ordenação, do curso de Ciência da Computação,
+ * da FAESA.</p>
+ * 
+ * @author Abrantes Araújo Silva Filho (<a href="mailto:abrantesasf@gmail.com">abrantesasf@gmail.com</a>)
  */
 public class MaxHeap<Key extends Comparable<Key>> {
 
